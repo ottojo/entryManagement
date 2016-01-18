@@ -2,8 +2,11 @@
 ## Software
 ### API
 * Pins are stored online, API functions to be documented later
+
 ### App
+
 ### Arduino
+
 
 ## Hardware
 ### ESP8266
