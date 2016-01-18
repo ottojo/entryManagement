@@ -8,7 +8,7 @@
 #include <ESP8266HTTPClient.h>
 
 
-const char* ssid = "";
+const char* ssid = " ";
 const char* password = "";
 const int httpPort = 80;
 
@@ -66,7 +66,46 @@ void handleNotFound(){
 
 void getId()
 {
-  server.send(200, "text/plain", chipId);
+
+
+if(!server.hasArg("pin")) return returnFail("NO PIN");
+  String pin = server.arg("pin");
+  Serial.println("pin is " + pin);
+ 
+String url = "/api/testForMasterPin.php?";
+  url += "doorId=";
+  url += chipId;
+  url += "&pin=" ;
+  url += pin;
+Serial.println("URL string set");
+  HTTPClient http;
+  Serial.println("http object created");
+
+        http.begin("entrymanagement.pe.hu", 80, url); //HTTP
+        Serial.println("http.begin finished");
+        int httpCode = http.GET();
+        String payload = "0";
+        if(httpCode) {
+            // HTTP header has been send and Server response header has been handled
+            Serial.printf("[HTTP] GET... code: %d\n", httpCode);
+
+            // file found at server
+            if(httpCode == 200) {
+              Serial.println("got payload");
+                payload = http.getString();
+                Serial.println(payload);
+            }
+        } else {
+            Serial.print("[HTTP] GET... failed, no connection or no HTTP server\n");
+        }
+
+  if(payload == "1")
+  {
+    server.send(200, "text/plain", String(chipId));
+  }
+  else{
+    server.send(200, "text/plain", "is not master");
+  }
 }
 
 void handleOpen()
