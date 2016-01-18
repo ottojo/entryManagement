@@ -24,8 +24,8 @@ function isMasterPin($doorId, $pin)
     return $masterPinValid;
 }
 
-if (!empty($_POST["doorId"]) && !empty($_POST["masterPin"]) && !empty($_POST["pin"])) {
-    if (isMasterPin($_POST["doorId"], $_POST["masterPin"])) {
+if (!empty($_GET["doorId"]) && !empty($_GET["masterPin"]) && !empty($_GET["pin"])) {
+    if (isMasterPin($_GET["doorId"], $_GET["masterPin"])) {
 
 
         require("sqlconnection.php");
@@ -33,10 +33,10 @@ if (!empty($_POST["doorId"]) && !empty($_POST["masterPin"]) && !empty($_POST["pi
         $preparedStatementGetPin = $dbConnection->prepare('SELECT id, pinHash FROM pins WHERE doorId = :doorId');
         $preparedStatementDeletePin = $dbConnection->prepare('DELETE FROM pins WHERE id = :id');
 
-        $preparedStatementGetPin->execute(array('doorId' => $_POST["doorId"]));
+        $preparedStatementGetPin->execute(array('doorId' => $_GET["doorId"]));
 
         while ($row = $preparedStatementGetPin->fetch()) {
-            if (password_verify($_POST["pin"], $row["pinHash"])) {
+            if (password_verify($_GET["pin"], $row["pinHash"])) {
                 $preparedStatementDeletePin->execute(array('id' => $row["id"]));
             }
         }

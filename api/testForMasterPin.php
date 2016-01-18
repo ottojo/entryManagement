@@ -7,19 +7,19 @@
  */
 
 
-if (!empty($_POST["doorId"]) && !empty($_POST["pin"])) {
+if (!empty($_GET["doorId"]) && !empty($_GET["pin"])) {
     require("sqlconnection.php");
 
     $preparedStatementGetPin = $dbConnection->prepare('SELECT pinHash, expireDate FROM pins WHERE doorId = :doorId');
 
-    $preparedStatementGetPin->execute(array('doorId' => $_POST["doorId"]));
+    $preparedStatementGetPin->execute(array('doorId' => $_GET["doorId"]));
 
     $pinCorrect = false;
 
     while ($row = $preparedStatementGetPin->fetch()) {
 
         if ($row["expireDate"] == null)
-            $pinCorrect = password_verify($_POST["pin"], $row["pinHash"]) || $pinCorrect;
+            $pinCorrect = password_verify($_GET["pin"], $row["pinHash"]) || $pinCorrect;
     }
     echo($pinCorrect ? '1' : '0');
 }

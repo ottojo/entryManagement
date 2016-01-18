@@ -13,18 +13,18 @@ function dateExpired($timestamp)
     return time() > $timestamp;
 }
 
-if (!empty($_POST["doorId"]) && !empty($_POST["pin"])) {
+if (!empty($_GET["doorId"]) && !empty($_GET["pin"])) {
     require("sqlconnection.php");
 
     $preparedStatementValidatePin = $dbConnection->prepare('SELECT pinHash, expireDate FROM pins WHERE doorId = :doorId');
 
-    $preparedStatementValidatePin->execute(array('doorId' => $_POST["doorId"]));
+    $preparedStatementValidatePin->execute(array('doorId' => $_GET["doorId"]));
 
     $pinCorrect = false;
 
     while ($row = $preparedStatementValidatePin->fetch()) {
 
-        $pinCorrect = (password_verify($_POST["pin"], $row["pinHash"]) && !dateExpired($row["expireDate"])) || $pinCorrect;
+        $pinCorrect = (password_verify($_GET["pin"], $row["pinHash"]) && !dateExpired($row["expireDate"])) || $pinCorrect;
     }
     echo($pinCorrect ? '1' : '0');
 }
