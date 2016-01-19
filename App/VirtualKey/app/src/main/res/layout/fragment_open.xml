@@ -1,0 +1,70 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+
+    tools:context="jonasotto.virtualkey.OpenFragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <TextView
+            android:id="@+id/ownIpText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="No WiFi Connection"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <EditText
+            android:id="@+id/ipText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ownIpText"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_margin="5dp"
+            android:digits="0123456789."
+            android:ems="10"
+            android:hint="IP"
+            android:inputType="phone"
+            android:maxLength="15"
+            android:maxLines="1"
+            android:textSize="40dp" />
+
+        <Button
+            android:id="@+id/connectButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ipText"
+            android:text="Connect" />
+
+        <EditText
+            android:id="@+id/pinText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/connectButton"
+            android:layout_gravity="center_horizontal|top"
+            android:digits="0123456789"
+            android:ems="10"
+            android:hint="PIN"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:textSize="40dp" />
+
+        <Button
+            android:id="@+id/openButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pinText"
+            android:text="Open" />
+
+
+    </RelativeLayout>
+
+</FrameLayout>

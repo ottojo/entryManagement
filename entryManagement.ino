@@ -8,8 +8,8 @@
 #include <ESP8266HTTPClient.h>
 
 
-const char* ssid = " ";
-const char* password = "";
+const char* ssid = "MotoG";
+const char* password = "ToolboxRockt";
 const int httpPort = 80;
 
 int chipId;
@@ -153,6 +153,11 @@ Serial.println("URL string set");
   }
 }
 
+void testEsp()
+{
+  server.send(200, "text/plain", "ESP");
+}
+
 void setup(void){
   chipId = ESP.getChipId();
   pinMode(led, OUTPUT);
@@ -185,6 +190,7 @@ void setup(void){
 
   server.on("/open", handleOpen);
   server.on("/getId", getId);
+  server.on("/testEsp", testEsp);
 
   server.onNotFound(handleNotFound);
 
