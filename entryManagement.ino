@@ -9,7 +9,7 @@
 
 
 const char* ssid = "netzwerk";
-const char* password = "NetzwerkPasswort";
+const char* password = "passwort";
 const int httpPort = 80;
 
 int chipId;
