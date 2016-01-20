@@ -17,6 +17,10 @@
    * <code>OPTIONAL</code> <code>expireDate</code> UNIX Timestamp of the expiration date for the pin. If not supplied, expireDate will be null
 
 ### App
+* App is still in development
+* Supported Features:
+  * Finding the ESP in the local network
+  * Opening the door
 
 ### Arduino
 
