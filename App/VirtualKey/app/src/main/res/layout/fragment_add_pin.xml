@@ -4,10 +4,32 @@
     android:layout_height="match_parent"
     tools:context="jonasotto.virtualkey.AddPinFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <EditText
+            android:id="@+id/pinText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:digits="0123456789"
+            android:ems="10"
+            android:hint="PIN"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:textSize="40dp" />
+
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pinText"
+            android:text="Add PIN" />
+
+
+    </RelativeLayout>
 
 </FrameLayout>

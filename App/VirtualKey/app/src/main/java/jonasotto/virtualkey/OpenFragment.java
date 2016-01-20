@@ -1,6 +1,7 @@
 package jonasotto.virtualkey;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -169,6 +170,8 @@ public class OpenFragment extends Fragment {
                             Log.d("ESPSEARCH", "ESP ON  " + url);
                             espIp = new IPaddress(ipAddress);
                             localIpText.setText(ipAddress);
+                            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                            sharedPref.edit().putString("espIp", ipAddress).apply();
                             queue.cancelAll(new RequestQueue.RequestFilter() {
                                 @Override
                                 public boolean apply(Request<?> request) {

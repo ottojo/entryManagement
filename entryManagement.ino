@@ -8,8 +8,8 @@
 #include <ESP8266HTTPClient.h>
 
 
-const char* ssid = "MotoG";
-const char* password = "ToolboxRockt";
+const char* ssid = "";
+const char* password = "";
 const int httpPort = 80;
 
 int chipId;
@@ -158,6 +158,40 @@ void testEsp()
   server.send(200, "text/plain", "ESP");
 }
 
+void addPin()
+{
+  if(!server.hasArg("pin")) return returnFail("NO PIN");
+  String pin = server.arg(0);
+
+  String url = "/api/registerPin.php?";
+  url += "doorId=";
+  url += chipId;
+  url += "&pin=";
+  url += pin;
+Serial.println("URL string set");
+  HTTPClient http;
+  Serial.println("http object created");
+
+        http.begin("entrymanagement.pe.hu", 80, url); //HTTP
+        Serial.println("http.begin finished");
+        int httpCode = http.GET();
+        String payload = "0";
+        if(httpCode) {
+            // HTTP header has been send and Server response header has been handled
+            Serial.printf("[HTTP] GET... code: %d\n", httpCode);
+
+            // file found at server
+            if(httpCode == 200) {
+              Serial.println("got payload");
+                payload = http.getString();
+                Serial.println(payload);
+            }
+        } else {
+            Serial.print("[HTTP] GET... failed, no connection or no HTTP server\n");
+        }
+        server.send(200, "text/plain", "done");
+}
+
 void setup(void){
   chipId = ESP.getChipId();
   pinMode(led, OUTPUT);
@@ -191,6 +225,7 @@ void setup(void){
   server.on("/open", handleOpen);
   server.on("/getId", getId);
   server.on("/testEsp", testEsp);
+  server.on("/addPin", addPin);
 
   server.onNotFound(handleNotFound);
 
