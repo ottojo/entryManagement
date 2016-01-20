@@ -8,8 +8,8 @@
 #include <ESP8266HTTPClient.h>
 
 
-const char* ssid = "";
-const char* password = "";
+const char* ssid = "netzwerk";
+const char* password = "NetzwerkPasswort";
 const int httpPort = 80;
 
 int chipId;
@@ -111,7 +111,7 @@ Serial.println("URL string set");
 void handleOpen()
 {
   if(!server.hasArg("pin")) return returnFail("NO PIN");
-  String pin = server.arg(0);
+  String pin = server.arg("pin");
   Serial.println("pin is " + pin);
  
 String url = "/api/validatePin.php?";
@@ -161,13 +161,50 @@ void testEsp()
 void addPin()
 {
   if(!server.hasArg("pin")) return returnFail("NO PIN");
-  String pin = server.arg(0);
+  String pin = server.arg("pin");
 
   String url = "/api/registerPin.php?";
   url += "doorId=";
   url += chipId;
   url += "&pin=";
   url += pin;
+Serial.println("URL string set");
+  HTTPClient http;
+  Serial.println("http object created");
+
+        http.begin("entrymanagement.pe.hu", 80, url); //HTTP
+        Serial.println("http.begin finished");
+        int httpCode = http.GET();
+        String payload = "0";
+        if(httpCode) {
+            // HTTP header has been send and Server response header has been handled
+            Serial.printf("[HTTP] GET... code: %d\n", httpCode);
+
+            // file found at server
+            if(httpCode == 200) {
+              Serial.println("got payload");
+                payload = http.getString();
+                Serial.println(payload);
+            }
+        } else {
+            Serial.print("[HTTP] GET... failed, no connection or no HTTP server\n");
+        }
+        server.send(200, "text/plain", "done");
+}
+
+void removePin()
+{
+  if(!server.hasArg("pin") && !server.hasArg("masterPin")) return returnFail("NO PIN");
+  String pin = server.arg("pin");
+  String masterPin = server.arg("masterPin");
+
+  String url = "/api/revokePin.php?";
+  url += "doorId=";
+  url += chipId;
+  url += "&pin=";
+  url += pin;
+  url += "&masterPin=";
+  url += masterPin;
 Serial.println("URL string set");
   HTTPClient http;
   Serial.println("http object created");
@@ -226,6 +263,7 @@ void setup(void){
   server.on("/getId", getId);
   server.on("/testEsp", testEsp);
   server.on("/addPin", addPin);
+  server.on("/removePin", removePin);
 
   server.onNotFound(handleNotFound);
 
