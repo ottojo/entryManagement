@@ -35,8 +35,9 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text=""
             android:id="@+id/idText"
-            android:layout_below="@+id/getIdButton"
-            android:layout_centerHorizontal="true" />
+            android:layout_below="@+id/removePinButton"
+            android:layout_centerHorizontal="true"
+            android:textSize="40dp"/>
 
         <Button
             android:layout_width="wrap_content"
