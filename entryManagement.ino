@@ -9,7 +9,7 @@
 
 
 const char* ssid = "netzwerk";
-const char* password = "passwort";
+const char* password = "da43GECk";
 const int httpPort = 80;
 
 int chipId;
@@ -26,11 +26,11 @@ void setDoor(bool door_open)
   
   if(door_open)
   {
-    digitalWrite(D3, HIGH);
+    digitalWrite(0, HIGH);
   }
   else
   {
-    digitalWrite(D3, LOW);
+    digitalWrite(0, LOW);
   }
   
 }
@@ -77,7 +77,7 @@ String url = "/api/testForMasterPin.php?";
   url += chipId;
   url += "&pin=" ;
   url += pin;
-Serial.println("URL string set");
+  Serial.println("URL string set: " + url);
   HTTPClient http;
   Serial.println("http object created");
 
@@ -119,7 +119,7 @@ String url = "/api/validatePin.php?";
   url += chipId;
   url += "&pin=" ;
   url += pin;
-Serial.println("URL string set");
+  Serial.println("URL string set: " + url);
   HTTPClient http;
   Serial.println("http object created");
 
@@ -145,7 +145,7 @@ Serial.println("URL string set");
   {
     setDoor(true);
     server.send(200, "text/plain", "door opened");
-    delay(5000);
+    delay(3000);
     setDoor(false);
   }
   else{
@@ -168,7 +168,7 @@ void addPin()
   url += chipId;
   url += "&pin=";
   url += pin;
-Serial.println("URL string set");
+  Serial.println("URL string set: " + url);
   HTTPClient http;
   Serial.println("http object created");
 
@@ -205,7 +205,7 @@ void removePin()
   url += pin;
   url += "&masterPin=";
   url += masterPin;
-Serial.println("URL string set");
+Serial.println("URL string set: " + url);
   HTTPClient http;
   Serial.println("http object created");
 
@@ -232,9 +232,9 @@ Serial.println("URL string set");
 void setup(void){
   chipId = ESP.getChipId();
   pinMode(led, OUTPUT);
-  pinMode(D1, OUTPUT);
-  pinMode(D3, OUTPUT);
-  digitalWrite(D1, HIGH);
+  //pinMode(D1, OUTPUT);
+  pinMode(0, OUTPUT);
+  //digitalWrite(D1, HIGH);
   setDoor(false);
   digitalWrite(led, 0);
   Serial.begin(115200);
